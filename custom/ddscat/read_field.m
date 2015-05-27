@@ -52,39 +52,41 @@ function read_field(varargin)
         
     % set figure properties
     shading interp
-    %set(gca,'FontName','Times New Roman','FontSize',7);
     set(gcf,'renderer','zbuffer');
-    set(gcf,'PaperUnits','inches','PaperPosition',[0 0 6.5 3]);
+    % set(gcf,'PaperUnits','inches','PaperPosition',[0 0 6.5 3]);
     
     
     % add arrow and text indicate wave vector and wave vibrating direction
-    annotation('doublearrow',[0.15,0.21],[0.78,0.78],'HeadStyle',...
-        'vback2','HeadSize',5);
-    annotation('arrow',[0.18,0.18],[0.83,0.73],'HeadStyle','vback2',...
-        'HeadSize',5);
+    % annotation('doublearrow',[0.15,0.21],[0.78,0.78],'HeadStyle',...
+    %    'vback2','HeadSize',5);
+    % annotation('arrow',[0.18,0.18],[0.83,0.73],'HeadStyle','vback2',...
+    %    'HeadSize',5);
     
-    text(-73,37,'\fontsize{7}{0}\selectfont$\stackrel{\longrightarrow}{E_0}$')
-    text(-86,24,'$k$')
+    % text(-73,37,'\fontsize{7}{0}\selectfont$\stackrel{\longrightarrow}{E_0}$')
+    % text(-86,24,'$k$')
     
     % a demo about how to add xlabel of colorbar
     % the position of the xlabel of colorbar is relative to colorbar
     % warning('off')
+    
+    % use floor function will improve contrast
+    clim = get(gca, 'clim');
+    set(gca, 'CLim', floor(clim));
+    
     colorbar()
-    xlabel(colorbar,'\fontsize{7}{0}\selectfont$|E/E_0|$','Position',...
-        [0.4,-0.7,0]);
+    % if you want set the xlabel of colorbar between colorbar to a constant
+    % distance, then you should use clim(end)/100
+    % xlabel(colorbar,'\fontsize{8}{0}\selectfont$|E/E_0|$','Position',...
+    %    [0.4,-2.5*clim(end)/100,0]);
     colormap(jet(64))
     
     % set label
     xlabel(label_x);
     ylabel(label_y);
     axis tight 
-    
-    % use floor function will improve contrast
-    clim = get(gca, 'clim');
-    set(gca, 'CLim', floor(clim));
-          
+             
     % print figure
-    print(gcf, '-dpng','-r500', 'field.png');
+    print(gcf, '-dpng','-r500', ['field-',flag,'.png']);
 end
 
 
@@ -92,10 +94,11 @@ function [flag,nx,ny,hd,input_file]=parse_input(varargin)
 %PARSE_INPUT parse varargin into five parameter  
 
     nargs = length(varargin{1});
+    args = varargin{1};
     if nargs>1 && nargs<5
         error('Bad input parameter numbers for nargin>1 && nargin<5.');
     end
-    
+  
     if nargs==0
         flag='z';
         nx = 200;
@@ -105,7 +108,7 @@ function [flag,nx,ny,hd,input_file]=parse_input(varargin)
     end
     
     if nargs==1
-        flag = nargs{1};
+        flag = args{1};
         nx = 200;
         ny = 200;
         hd = 17;
@@ -113,10 +116,10 @@ function [flag,nx,ny,hd,input_file]=parse_input(varargin)
     end
     
     if nargs==5
-        flag = nargs{1};
-        nx = nargs{2};
-        ny = nargs{3};
-        hd = nargs{4};
-        input_file = nargs{5};       
+        flag = args{1};
+        nx = args{2};
+        ny = args{3};
+        hd = args{4};
+        input_file = args{5};       
     end
 end
