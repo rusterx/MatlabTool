@@ -13,6 +13,7 @@ function read_field(varargin)
 %                                 input_file and absoulte input_file
 
 
+    close all;
     [flag,nx,ny,hd,input_file] = parse_input(varargin);
    
     DELIMITER = ' ';
@@ -71,7 +72,10 @@ function read_field(varargin)
     
     % use floor function will improve contrast
     clim = get(gca, 'clim');
-    set(gca, 'CLim', floor(clim));
+    set(gca, 'CLim', clim);
+    display(clim);
+    dlmwrite('field.log',clim,...
+    '-append','delimiter', '\t');
     
     colorbar()
     % if you want set the xlabel of colorbar between colorbar to a constant
@@ -87,6 +91,9 @@ function read_field(varargin)
              
     % print figure
     print(gcf, '-dpng','-r500', ['field-',flag,'.png']);
+    
+    % some additional file
+    watermark([flag,'.png'],['field-',flag,'.png']);
 end
 
 

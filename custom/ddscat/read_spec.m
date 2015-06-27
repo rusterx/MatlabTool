@@ -3,6 +3,7 @@ function read_spec(varargin)
 %   input_file is the file contains spectrum data created by ddscat
 %   generally its name is qtable
 
+    close all;
     DELIMITER = ' ';
     HEADERLINES = 14;
     
@@ -27,20 +28,20 @@ function read_spec(varargin)
     plot(vl,Q_ext,'linewidth',2,'color','c');
     plot(vl,Q_abs,'linewidth',2,'color','b');
     plot(vl,Q_sca,'linewidth',2,'color','r');
-    grid on
     hold off
+    
+    set(gca,'FontSize',12,'linewidth',1.5);
 
     % get array points
     get_peaks();
         
     ld=legend('Extinction','Absorption','Scattering');
-    set(ld,'Position',[0.12 0.8 0.35 0.1]);
+    set(ld,'position',get(ld,'position')+[-0.5 0 0 0],'box','off');
     xlabel('Wavelength(nm)');
     ylabel('Absorbance(a.u.)');
     
     % set some properties of plot
     set(gcf,'renderer','painters');
-    set(gca,'FontName','Consolas');
     
     % print figure
     print(gcf,'-dpng','-r500','spectrum.png');
