@@ -12,7 +12,8 @@ classdef ftp_get
     % define methods
     methods
         function fg = ftp_get()
-            fg.f = ftp('js.mplant.pw','xing','123654ax');   
+            c = config();
+            fg.f = ftp(c{1},c{2},c{3});   
         end
         
         function ftp_file(obj,full_path)
