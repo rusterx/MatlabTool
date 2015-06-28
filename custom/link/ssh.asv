@@ -10,6 +10,7 @@ classdef ssh<handle
     
     methods
         function obj = ssh()
+            
             obj.conn = ssh2_config('js.mplant.pw','xing','123654ax');
             ssh2_command(obj.conn,['cd ',obj.getpwd()]);       
         end
