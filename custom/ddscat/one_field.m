@@ -33,6 +33,7 @@ function one_field(varargin)
             for k=1:3
                 % status information
                 display(fullfile(local_opt{i},flag{k}));
+                
                 try
                     % fetch ddpostprocess.out from remote host
                     f.ftp_file(rep_path(fullfile(...
@@ -40,19 +41,22 @@ function one_field(varargin)
                 catch err
                     error(['can not fetch file ',rep_path(fullfile(...
                         field_opt{i},flag{k},'ddpostprocess.out'))]);
-                end             
+                end  
+                
                 % read field from ddpostprocess.out
                 read_field(flag{k});
                 close all;
+                
                 %check if local path is exits
-                check_path(fullfile(local_opt{i},flag{k}));               
+                check_path(fullfile(local_opt{i},flag{k}));
+                
+                % local dir to store ddpostprocess.out
+                tempdir = fullfile(local_opt{i},flag{k});
+                
                 % copy ddpostprocess.out field-flag.png and .. to dest dir
-                copyfile(['field-',flag{k},'.png'],...
-                    fullfile(local_opt{i},flag{k}));
-                copyfile(['field-',flag{k},'-watermark.png'],...
-                    fullfile(local_opt{i},flag{k}));
-                copyfile('./ddpostprocess.out',...
-                    fullfile(local_opt{i},flag{k}));
+                copyfile(['field-',flag{k},'.png'],tempdir);
+                copyfile(['field-',flag{k},'-watermark.png'],tempdir);
+                copyfile('./ddpostprocess.out',tempdir);
             end
         end
     end
