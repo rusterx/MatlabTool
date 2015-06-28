@@ -23,9 +23,10 @@ function one_field(varargin)
         fullfile(matlabroot,'bin\data\ddscat-data',varargin,'fieldb')};
     
     f = ftp_get();
-    cd(fullfile(matlabroot,'bin\data'));
+    % project is the default work directory
+    cd(project);
     
-    %process fa
+    %process field file
     for i=1:n
         for j=1:2
             field_opt = field_flag{j};
@@ -34,13 +35,14 @@ function one_field(varargin)
                 % status information
                 display(fullfile(local_opt{i},flag{k}));
                 
+                % temp ddpostprocess.out dir
+                ddp_dir=fullfile(field_opt{i},flag{k},'ddpostprocess.out');
+                
                 try
                     % fetch ddpostprocess.out from remote host
-                    f.ftp_file(rep_path(fullfile(...
-                        field_opt{i},flag{k},'ddpostprocess.out')));
+                    f.ftp_file(unix_path(ddp_dir));
                 catch err
-                    error(['can not fetch file ',rep_path(fullfile(...
-                        field_opt{i},flag{k},'ddpostprocess.out'))]);
+                    error(['can not fetch file ',unix_path(ddp_dir)]);
                 end  
                 
                 % read field from ddpostprocess.out
@@ -59,16 +61,5 @@ function one_field(varargin)
                 copyfile('./ddpostprocess.out',tempdir);
             end
         end
-    end
-end
-
-function rp = rep_path(path)
-%REP_PATH change from Windows file seq '\' to Unix file seq '/'
-    rp = strrep(path,'\','/');
-end
-
-function check_path(path)
-    if ~exist(path,'dir')
-        mkdir(path);
     end
 end
