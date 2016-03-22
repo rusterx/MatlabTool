@@ -7,6 +7,6 @@ Here is some matlab code which can help process data created by ddscat.
 <pre>
 Author: Xing
 Email: 1281961491@qq.com
-Blog: <a href='https://www.mplant.pw/'>https://www.mplant.pw/</a>
+Blog: <a href='http://xingtingyang.cn/'>https://www.mplant.pw/</a>
 </pre>
 
