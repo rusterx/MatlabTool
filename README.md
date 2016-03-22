@@ -10,5 +10,4 @@ Email: 1281961491@qq.com
 Blog: <a href='http://xingtingyang.cn/'>https://www.mplant.pw/</a>
 </pre>
 
-{{E=mc^2}}
 
